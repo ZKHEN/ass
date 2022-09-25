@@ -44,7 +44,7 @@ INSERT INTO `employee` (`id`, `firstName`, `lastName`, `email`, `contact`, `addr
 
 CREATE TABLE `salary` (
   `id` int NOT NULL,
-  `salary` int(13) NOT NULL,
+  `totalSalary` int(13) NOT NULL,
   `status` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
