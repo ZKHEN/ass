@@ -97,7 +97,7 @@ def delete_employee(id):
     return redirect(url_for('Index'))
 
 @app.route('/salary/<id>', methods = ['POST', 'GET'])
-def get_employee(id):
+def get_salary(id):
     conn = db_conn
     cur = conn.cursor(pymysql.cursors.DictCursor)
     cur.execute('SELECT employee.id,employee.firstName,employee.lastName,salary.totalSalary,salary.status FROM employee,`salary` WHERE employee.id = salary.id', (id))
