@@ -96,15 +96,25 @@ def delete_employee(id):
     flash('Employee Removed Successfully')
     return redirect(url_for('Index'))
 
-@app.route('/salary/<id>', methods = ['POST', 'GET'])
-def get_salary(id):
+@app.route('/salary', methods = ['GET'])
+def get_salary():
     conn = db_conn
     cur = conn.cursor(pymysql.cursors.DictCursor)
-    cur.execute('SELECT employee.id,employee.firstName,employee.lastName,salary.totalSalary,salary.status FROM employee,`salary` WHERE employee.id = salary.id', (id))
+    cur.execute('SELECT E.id, E.firstName, E.lastName, S.totalSalary, S.status FROM employee E, `salary` S WHERE E.id = S.employee_id')
     data = cur.fetchall()
     cur.close()
     print(data[0])
-    return render_template('salary.html', employee = data[0])
+    return render_template('salary.html', employee = data)
+
+@app.route('/salary/<id>', methods = ['GET'])
+def pay_salary(id):
+
+    conn = db_conn
+    cur = conn.cursor(pymysql.cursors.DictCursor)
+    cur.execute('UPDATE salary SET status = %s WHERE employee_id = %s', ("paid", id))
+    conn.commit()
+    cur.close()
+    return redirect('/salary', code=302)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80, debug=True)
