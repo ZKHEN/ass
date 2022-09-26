@@ -43,9 +43,18 @@ def add_employee():
         address = request.form['address']
         gender = request.form['gender']
         salary = request.form['salary']
+
         cur.execute("INSERT INTO employee (id, firstName, lastName, email, contact, address, gender, salary) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)", (id, firstName, lastName, email, contact, address, gender, salary))
         conn.commit()
         flash('Employee Added Successfully')
+
+        employee_id = id
+        status = "unpaid"
+
+        cur.execute("INSERT INTO salary (employee_id, status) VALUES (%s,%s)", (employee_id, status))
+        conn.commit()
+        flash('Salary Added Successfully')
+
         return redirect(url_for('Index'))
 
 @app.route('/edit/<id>', methods = ['POST', 'GET'])
