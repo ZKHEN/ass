@@ -70,6 +70,7 @@ def update_employee(id):
         contact = request.form['contact']
         address = request.form['address']
         gender = request.form['gender']
+        salary = request.form['salary']
 
 
         cur.execute("""
@@ -79,9 +80,10 @@ def update_employee(id):
                 email = %s,
                 contact = %s,
                 address = %s,
-                gender = %s
+                gender = %s,
+                salary = %s
             WHERE id = %s
-        """, (firstName, lastName, email, contact, address, gender, id))
+        """, (firstName, lastName, email, contact, address, gender,salary, id))
         flash('Employee Updated Successfully')
         conn.commit()
         return redirect(url_for('Index'))
@@ -100,7 +102,7 @@ def delete_employee(id):
 def get_salary():
     conn = db_conn
     cur = conn.cursor(pymysql.cursors.DictCursor)
-    cur.execute('SELECT E.id, E.firstName, E.lastName, S.totalSalary, S.status FROM employee E, `salary` S WHERE E.id = S.employee_id')
+    cur.execute('SELECT E.id, E.firstName, E.lastName, E.salary, S.status FROM employee E, `salary` S WHERE E.id = S.employee_id')
     data = cur.fetchall()
     cur.close()
     print(data[0])
