@@ -102,7 +102,8 @@ def delete_employee(id):
     conn = db_conn
     cur = conn.cursor(pymysql.cursors.DictCursor)
   
-    cur.execute('DELETE FROM employee WHERE id = {0}'.format(id))
+    cur.execute(f"DELETE FROM salary S WHERE S.employee_id = {id}")
+    cur.execute(f"DELETE FROM employee E where E.id = {id}")
     conn.commit()
     flash('Employee Removed Successfully')
     return redirect(url_for('Index'))
